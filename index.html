@@ -46,7 +46,7 @@
 
         function create() {
             this.cards = this.add.group();
-            for (let i = 0; i < 5; i++) {
+            for (let i = 0; i < 100; i++) {
                 let card = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, 300, 400, 0x6666ff);
                 card.setInteractive();
                 this.input.setDraggable(card);
