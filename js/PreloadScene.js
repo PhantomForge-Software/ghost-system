@@ -4,7 +4,7 @@ class PreloadScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('deepfake_1', '..\\assets\\img\\deepfake_1.png');
+        this.load.image('deepfake_1', '..\\assets\\img\\df_1.png');
         this.load.image('deepfake_2', '..\\assets\\img\\deepfake_2.png');
         this.load.image('deepfake_3', '..\\assets\\img\\deepfake_3.png');
         this.load.image('deepfake_4', '..\\assets\\img\\deepfake_4.png');
