@@ -5,8 +5,8 @@ class MainScene extends Phaser.Scene {
 
     create() {
         this.cards = this.add.group();
-        let cardWidth = this.scale.width > 500 ? 300 : 100; // Further reduce width for mobile
-        let cardHeight = this.scale.height > 500 ? 400 : 150; // Further reduce height for mobile
+        let cardWidth = window.innerWidth > 768 ? 300 : 100; // Further reduce width for mobile
+        let cardHeight = window.innerHeight > 768 ? 400 : 150; // Further reduce height for mobile
 
         for (let i = 0; i < 100; i++) {
             let card = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, cardWidth, cardHeight, 0x6666ff);
