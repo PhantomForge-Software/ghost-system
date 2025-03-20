@@ -1,9 +1,33 @@
 body {
-    margin: 0;
-    padding: 0;
+    background-color: #f8f9fa;
+}
+
+#game-container {
+    width: 100%;
+    height: 80vh;
+}
+
+h1 {
+    color: #343a40;
+}
+
+#result {
+    margin-top: 20px;
+}
+
+/* css/styles.css */
+.game-container {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    margin: auto;
+    border: 2px solid #fff;
+    border-radius: 10px;
     overflow: hidden;
 }
 
-canvas {
-    display: block;
+.card {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
 }

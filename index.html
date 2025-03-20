@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>liefde liegt</title>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <title>Liefde Liegt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
 </head>
-<body>
+<body class="bg-dark text-white">
+    <div class="container text-center py-5">
+        <h1 class="mb-4">Liefde Liegt</h1>
+        <p class="mb-4">Swipe naar groen als ze echt zijn en naar rood als ze nep zijn.</p>
+        <div id="game-container" class="game-container"></div>
+        <div id="result" class="mt-4"></div>
+    </div>
     <script type="module" src="js/game.js"></script>
 </body>
 </html>
