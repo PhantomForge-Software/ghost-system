@@ -5,29 +5,69 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hallo Website</title>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <h1>Hallo</h1>
     <script>
         const config = {
             type: Phaser.AUTO,
-            width: 800,
-            height: 600,
+            width: window.innerWidth,
+            height: window.innerHeight,
             scene: {
                 preload: preload,
                 create: create,
                 update: update
+            },
+            scale: {
+                mode: Phaser.Scale.RESIZE,
+                autoCenter: Phaser.Scale.CENTER_BOTH
             }
         };
 
         const game = new Phaser.Game(config);
+
+        window.addEventListener('resize', () => {
+            game.scale.resize(window.innerWidth, window.innerHeight);
+        });
 
         function preload() {
             // Load assets here
         }
 
         function create() {
-            // Initialize game objects here
+            this.cards = this.add.group();
+            for (let i = 0; i < 5; i++) {
+                let card = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, 300, 400, 0x6666ff);
+                card.setInteractive();
+                this.input.setDraggable(card);
+                this.cards.add(card);
+            }
+
+            this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+                gameObject.x = dragX;
+                gameObject.y = dragY;
+            });
+
+            this.input.on('dragend', function (pointer, gameObject) {
+                if (gameObject.x > window.innerWidth * 0.75) {
+                    gameObject.destroy();
+                } else if (gameObject.x < window.innerWidth * 0.25) {
+                    gameObject.destroy();
+                } else {
+                    gameObject.x = window.innerWidth / 2;
+                    gameObject.y = window.innerHeight / 2;
+                }
+            });
         }
 
         function update() {
