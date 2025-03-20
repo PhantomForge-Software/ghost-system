@@ -5,8 +5,11 @@ class MainScene extends Phaser.Scene {
 
     create() {
         this.cards = this.add.group();
+        let cardWidth = this.scale.width > 768 ? 300 : 150; // Adjust width for mobile
+        let cardHeight = this.scale.height > 768 ? 400 : 200; // Adjust height for mobile
+
         for (let i = 0; i < 100; i++) {
-            let card = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, 300, 400, 0x6666ff);
+            let card = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, cardWidth, cardHeight, 0x6666ff);
             card.setInteractive();
             this.input.setDraggable(card);
             this.cards.add(card);
