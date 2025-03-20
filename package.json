@@ -1,0 +1,15 @@
+{
+  "name": "ghost-system",
+  "version": "1.0.0",
+  "description": "A Phaser game project",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
