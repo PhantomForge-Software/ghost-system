@@ -22,7 +22,7 @@ class MainScene extends Phaser.Scene {
         });
 
         this.input.on('dragend', function (pointer, gameObject) {
-            if (gameObject.x > this.scale.width * 0.8) {
+            if (gameObject.x > this.scale.width * 0.5) {
                 this.tweens.add({
                     targets: gameObject,
                     alpha: 0,
