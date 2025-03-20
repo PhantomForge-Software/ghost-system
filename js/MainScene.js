@@ -33,3 +33,5 @@ class MainScene extends Phaser.Scene {
         // Game loop logic here
     }
 }
+
+export default MainScene;
