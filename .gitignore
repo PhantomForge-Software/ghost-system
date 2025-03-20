@@ -2,3 +2,4 @@
 options/windows/options_windows.yy
 node_modules/
 dist/
+*.zip

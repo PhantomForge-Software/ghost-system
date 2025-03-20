@@ -5,8 +5,8 @@ class MainScene extends Phaser.Scene {
 
     create() {
         this.cards = this.add.group();
-        let cardWidth = window.innerWidth > 768 ? 300 : 100; // Further reduce width for mobile
-        let cardHeight = window.innerHeight > 768 ? 400 : 150; // Further reduce height for mobile
+        let cardWidth = window.innerWidth > 768 ? 300 : 100;
+        let cardHeight = window.innerHeight > 768 ? 400 : 150;
 
         for (let i = 0; i < 100; i++) {
             let card = this.add.rectangle(this.scale.width / 2, this.scale.height / 2, cardWidth, cardHeight, 0x6666ff);
@@ -15,14 +15,13 @@ class MainScene extends Phaser.Scene {
             this.cards.add(card);
         }
 
-        // Create hitbox indicators closer to the cards
         this.leftHitbox = this.add.rectangle(this.scale.width * 0.1, this.scale.height / 2, this.scale.width * 0.5, this.scale.height, 0xff0000, 0.5).setOrigin(0.5, 0.5);
         this.rightHitbox = this.add.rectangle(this.scale.width * 0.9, this.scale.height / 2, this.scale.width * 0.5, this.scale.height, 0x00ff00, 0.5).setOrigin(0.5, 0.5);
 
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
             gameObject.x = dragX;
             gameObject.y = dragY;
-            gameObject.angle = (dragX - this.scale.width / 2) * 0.1; // Tilt based on drag direction
+            gameObject.angle = (dragX - this.scale.width / 2) * 0.1;
         }, this);
 
         this.input.on('dragend', function (pointer, gameObject) {
@@ -47,13 +46,12 @@ class MainScene extends Phaser.Scene {
             } else {
                 gameObject.x = this.scale.width / 2;
                 gameObject.y = this.scale.height / 2;
-                gameObject.angle = 0; // Reset tilt
+                gameObject.angle = 0;
             }
         }, this);
     }
 
     update() {
-        // Game loop logic here
     }
 }
 

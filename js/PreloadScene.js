@@ -12,7 +12,6 @@ class PreloadScene extends Phaser.Scene {
         this.load.image('deepfake_6', '..\\assets\\img\\deepfake_6.png');
         this.load.image('normal_1', '..\\assets\\img\\normal_1.png');
         this.load.image('normal_2', '..\\assets\\img\\normal_2.png');
-
     }
 
     create() {
