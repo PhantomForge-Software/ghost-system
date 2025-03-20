@@ -1,3 +1,6 @@
+import PreloadScene from './PreloadScene';
+import MainScene from './MainScene';
+
 const config = {
     type: Phaser.AUTO,
     width: window.innerWidth,
