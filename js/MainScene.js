@@ -19,7 +19,8 @@ class MainScene extends Phaser.Scene {
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
             gameObject.x = dragX;
             gameObject.y = dragY;
-        });
+            gameObject.angle = (dragX - this.scale.width / 2) * 0.1; // Tilt based on drag direction
+        }, this);
 
         this.input.on('dragend', function (pointer, gameObject) {
             if (gameObject.x > this.scale.width * 0.5) {
@@ -43,6 +44,7 @@ class MainScene extends Phaser.Scene {
             } else {
                 gameObject.x = this.scale.width / 2;
                 gameObject.y = this.scale.height / 2;
+                gameObject.angle = 0; // Reset tilt
             }
         }, this);
     }
