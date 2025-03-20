@@ -10,7 +10,7 @@ class MainScene extends Phaser.Scene {
         let cardImages = ['deepfake_1', 'deepfake_2', 'deepfake_3', 'deepfake_4', 'deepfake_5', 'deepfake_6', 'normal_1', 'normal_2'];
 
         for (let i = 0; i < 100; i++) {
-            let cardImage = cardImages[i % cardImages.length];
+            let cardImage = cardImages[Math.floor(Math.random() * cardImages.length)];
             let card = this.add.image(this.scale.width / 2, this.scale.height / 2, cardImage).setDisplaySize(cardWidth, cardHeight);
             card.setInteractive();
             this.input.setDraggable(card);
