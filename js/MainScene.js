@@ -34,7 +34,7 @@ class MainScene extends Phaser.Scene {
         });
 
         // ✅ "Echt" en "Nep" knoppen onderaan maken
-        // Knop voor "echt" (nu links)
+        // Knop voor "echt"
         this.fakeButton = this.add.text(this.scale.width * 0.8, this.scale.height - 50, 'Echt', {
             fontSize: '32px',
             backgroundColor: '#00ff00',
@@ -43,7 +43,7 @@ class MainScene extends Phaser.Scene {
             borderRadius: 10
         }).setOrigin(0.5).setInteractive();
 
-        // Knop voor "nep" (nu rechts)
+        // Knop voor "nep"
         this.realButton = this.add.text(this.scale.width * 0.2, this.scale.height - 50, 'Nep', {
             fontSize: '32px',
             backgroundColor: '#ff0000',
@@ -103,6 +103,9 @@ class MainScene extends Phaser.Scene {
         if (isCorrect) this.score++;
         this.cardsSwiped++;
 
+         // ✅ Feedback tonen na swipe
+        this.showFeedback(card, guess, isCorrect);
+
         // ✅ Snelle animatie om kaart weg te swipen
         this.tweens.add({
             targets: card,
@@ -125,6 +128,34 @@ class MainScene extends Phaser.Scene {
             duration: 150
         });
     }
+
+    showFeedback(card, guess, isCorrect) {
+        // ✅ Combineer tekst en icoon in één string
+        const feedbackText = `${isCorrect ? '✅' : '❌'}`;
+        
+        // ✅ Posities in het midden van het scherm
+        const centerX = this.scale.width / 2;
+        const centerY = this.scale.height / 2;
+    
+        // ✅ Kleine afbeelding van de kaart voor feedback (geplaatst in het midden)
+        let feedbackImage = this.add.image(centerX, centerY - 50, card.texture.key)
+            .setDisplaySize(100, 100) // Kleinere versie van de kaart
+            .setAlpha(0.7); // Doorzichtig
+        
+        // ✅ Feedbacktekst met correcte styling (geplaatst in het midden)
+        let feedbackLabel = this.add.text(centerX, centerY + 50, feedbackText, {
+            font: '32px Arial',
+            fill: isCorrect ? '#00ff00' : '#ff0000', // Groen of rood afhankelijk van correctheid
+            align: 'center'
+        }).setOrigin(0.5);
+    
+        // ✅ Tijdelijke feedback (verdwijnt na 1 seconde)
+        this.time.delayedCall(800, () => {
+            feedbackImage.destroy();
+            feedbackLabel.destroy();
+        });
+    }
+    
 
     showResult() {
         const accuracy = ((this.score / this.totalCards) * 100).toFixed(1);
