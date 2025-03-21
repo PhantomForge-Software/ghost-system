@@ -30,3 +30,139 @@ h1 {
     cursor: grab;
     user-select: none;
 }
+
+.scam-chance-animation {
+    animation: scamAnimation 1s infinite;
+    font-size: 24px; /* Increase text size */
+}
+
+.safe-chance-animation {
+    animation: safeAnimation 1s infinite;
+    font-size: 24px; /* Increase text size */
+}
+
+.warning-chance-animation {
+    animation: warningAnimation 1s infinite;
+    font-size: 24px; /* Increase text size */
+}
+
+@keyframes scamAnimation {
+    0%, 100% {
+        transform: scale(1);
+        color: red;
+    }
+    50% {
+        transform: scale(1.2);
+        color: darkred;
+    }
+}
+
+@keyframes safeAnimation {
+    0%, 100% {
+        transform: scale(1);
+        color: green;
+    }
+    50% {
+        transform: scale(1.2);
+        color: darkgreen;
+    }
+}
+
+@keyframes warningAnimation {
+    0%, 100% {
+        transform: scale(1);
+        color: yellow;
+    }
+    50% {
+        transform: scale(1.2);
+        color: darkyellow;
+    }
+}
+
+.red-light {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 150px; /* Make the light wider */
+    background-color: red;
+    opacity: 0.8;
+    animation: blinkRed 1s infinite;
+    border-radius: 50% 0 0 50%; /* Reverse the half-circle direction */
+}
+
+.green-light {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 150px; /* Make the light wider */
+    background-color: green;
+    opacity: 0.8;
+    animation: blinkGreen 1s infinite;
+    border-radius: 50% 0 0 50%; /* Reverse the half-circle direction */
+}
+
+.yellow-light {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 150px; /* Make the light wider */
+    background-color: yellow;
+    opacity: 0.8;
+    animation: blinkYellow 1s infinite;
+    border-radius: 50% 0 0 50%; /* Reverse the half-circle direction */
+}
+
+.left-light {
+    left: 0;
+    border-radius: 0 50% 50% 0; /* Reverse the half-circle direction */
+}
+
+.right-light {
+    right: 0;
+    border-radius: 50% 0 0 50%; /* Reverse the half-circle direction */
+}
+
+@keyframes blinkRed {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes blinkGreen {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@keyframes blinkYellow {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+@media (max-width: 768px) {
+    #game-container {
+        height: 60vh; /* Adjusted for mobile */
+    }
+
+    .game-container {
+        height: 60vh; /* Adjusted for mobile */
+    }
+
+    .scam-chance-animation, .safe-chance-animation, .warning-chance-animation {
+        font-size: 18px; /* Adjusted for mobile */
+    }
+
+    .red-light, .green-light, .yellow-light {
+        width: 100px; /* Adjusted for mobile */
+    }
+}

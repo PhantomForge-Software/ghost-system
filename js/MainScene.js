@@ -159,11 +159,12 @@ class MainScene extends Phaser.Scene {
 
     showResult() {
         const accuracy = ((this.score / this.totalCards) * 100).toFixed(1);
+        const scamChance = 100 - accuracy;
 
         let resultHTML = `
             <h3>Resultaat:</h3>
             <p>Score: ${this.score}/${this.totalCards} (${accuracy}%)</p>
-            <p>Kans om gescamd te worden: ${100 - accuracy}%</p>
+            <p id="scam-chance" class="${scamChance > 40 ? 'scam-chance-animation' : scamChance >= 30 ? 'warning-chance-animation' : 'safe-chance-animation'}" style="color: ${scamChance > 40 ? 'red' : scamChance >= 30 ? 'yellow' : 'green'}; font-size: 24px;">Kans om gescamd te worden: ${scamChance}%</p>
             <h4>Details van je antwoorden:</h4>
             <ul>
         `;
@@ -182,6 +183,44 @@ class MainScene extends Phaser.Scene {
         `;
 
         document.getElementById('result').innerHTML = resultHTML;
+
+        if (scamChance > 40) {
+            const scamChanceElement = document.getElementById('scam-chance');
+            scamChanceElement.classList.add('scam-chance-animation');
+
+            // Add red lights on the sides
+            const leftLight = document.createElement('div');
+            leftLight.className = 'red-light left-light';
+            document.body.appendChild(leftLight);
+
+            const rightLight = document.createElement('div');
+            rightLight.className = 'red-light right-light';
+            document.body.appendChild(rightLight);
+        } else if (scamChance >= 30) {
+            const scamChanceElement = document.getElementById('scam-chance');
+            scamChanceElement.classList.add('warning-chance-animation');
+
+            // Add yellow lights on the sides
+            const leftLight = document.createElement('div');
+            leftLight.className = 'yellow-light left-light';
+            document.body.appendChild(leftLight);
+
+            const rightLight = document.createElement('div');
+            rightLight.className = 'yellow-light right-light';
+            document.body.appendChild(rightLight);
+        } else {
+            const scamChanceElement = document.getElementById('scam-chance');
+            scamChanceElement.classList.add('safe-chance-animation');
+
+            // Add green lights on the sides
+            const leftLight = document.createElement('div');
+            leftLight.className = 'green-light left-light';
+            document.body.appendChild(leftLight);
+
+            const rightLight = document.createElement('div');
+            rightLight.className = 'green-light right-light';
+            document.body.appendChild(rightLight);
+        }
 
         document.getElementById('refresh-btn').addEventListener('click', () => {
             location.reload();
