@@ -17,8 +17,8 @@ class MainScene extends Phaser.Scene {
 
         // Kaart afbeeldingen definiëren
         let cardImages = [
-            'DF_1', 'DF_2', 'DF_3', 'DF_4', 'DF_5', 'DF_6', 'DF_7', 'DF_8',
-            'R_1', 'R_2', 'R_3', 'R_4', 'R_5', 'R_6', 'R_7', 'R_8'
+            'DF_1', 'DF_2', 'DF_3', 'DF_4', 'DF_5', 'DF_6', 'DF_7', 'DF_8', 'DF_9', 'DF_10', 'DF_11', 'DF_12', 'DF_13', 'DF_14', 'DF_15',
+            'R_1', 'R_2', 'R_3', 'R_4', 'R_5', 'R_6', 'R_7', 'R_8', 'R_9', 'R_10', 'R_11', 'R_12', 'R_13', 'R_14','R_15'
         ];
 
         // Willekeurige volgorde maken
