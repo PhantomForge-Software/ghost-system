@@ -4,108 +4,116 @@ class MainScene extends Phaser.Scene {
         this.score = 0;
         this.totalCards = 10;
         this.cardsSwiped = 0;
-        this.results = []; // Toegevoegd om de resultaten van elke kaart bij te houden
+        this.results = [];
     }
 
     create() {
-        // Groep voor kaarten aanmaken
         this.cards = this.add.group();
 
-        // Dynamische kaartgrootte op basis van schermgrootte
-        let cardWidth = window.innerWidth > 768 ? 300 : 150;
-        let cardHeight = window.innerHeight > 768 ? 400 : 200;
+        // ✅ Dynamische grootte voor kaarten, behoud beeldverhouding
+        let cardWidth = Math.min(this.scale.width * 0.7, 300);
+        let cardHeight = cardWidth * 1.5;
 
-        // Kaart afbeeldingen definiëren
+        // ✅ Kaart afbeeldingen definities
         let cardImages = [
             'DF_1', 'DF_2', 'DF_3', 'DF_4', 'DF_5', 'DF_6', 'DF_7', 'DF_8',
             'R_1', 'R_2', 'R_3', 'R_4', 'R_5', 'R_6', 'R_7', 'R_8'
         ];
+        let shuffledImages = Phaser.Utils.Array.Shuffle(cardImages).slice(0, this.totalCards);
 
-        // Willekeurige volgorde maken
-        let shuffledImages = Phaser.Utils.Array.Shuffle(cardImages.slice()).slice(0, this.totalCards);
-
-        // Dynamische breedte en hoogte voor de zones
-        let zoneWidth = window.innerWidth > 768 ? 500 : 150;
-        let zoneHeight = window.innerHeight > 768 ? this.scale.height : 200;
-
-        // Groene en rode zone (voor swipe richting)
-        this.greenZone = this.add.rectangle(this.scale.width * 0.9, this.scale.height / 2, zoneWidth, zoneHeight, 0x00ff00, 0.5).setOrigin(0.5);
-        this.redZone = this.add.rectangle(this.scale.width * 0.1, this.scale.height / 2, zoneWidth, zoneHeight, 0xff0000, 0.5).setOrigin(0.5);
-
-        // Kaarten maken
         shuffledImages.forEach((cardImage) => {
             let card = this.add.image(this.scale.width / 2, this.scale.height / 2, cardImage)
                 .setDisplaySize(cardWidth, cardHeight)
                 .setInteractive();
 
-            // Kaarttype bepalen op basis van de naam
             card.cardType = cardImage.includes('DF') ? 'DF' : 'real';
 
-            // Kaart draggable maken
             this.input.setDraggable(card);
             this.cards.add(card);
         });
 
-        // Drag event - tijdens het slepen
+        // ✅ "Echt" en "Nep" knoppen onderaan maken
+        // Knop voor "echt" (nu links)
+        this.fakeButton = this.add.text(this.scale.width * 0.8, this.scale.height - 50, 'Echt', {
+            fontSize: '32px',
+            backgroundColor: '#00ff00',
+            color: '#000',
+            padding: { x: 20, y: 10 },
+            borderRadius: 10
+        }).setOrigin(0.5).setInteractive();
+
+        // Knop voor "nep" (nu rechts)
+        this.realButton = this.add.text(this.scale.width * 0.2, this.scale.height - 50, 'Nep', {
+            fontSize: '32px',
+            backgroundColor: '#ff0000',
+            color: '#000',
+            padding: { x: 20, y: 10 },
+            borderRadius: 10
+        }).setOrigin(0.5).setInteractive();
+
+
+
+        // ✅ Swipe detectie en knop vergroting
         this.input.on('drag', (pointer, gameObject, dragX, dragY) => {
             gameObject.x = dragX;
             gameObject.y = dragY;
-
-            // Licht kantelen voor een realistisch effect
             gameObject.angle = (dragX - this.scale.width / 2) * 0.1;
+
+            // Knop vergroten afhankelijk van swipe richting
+            if (dragX > this.scale.width * 0.7) {
+                this.fakeButton.setScale(1.5);
+                this.realButton.setScale(1);
+            } else if (dragX < this.scale.width * 0.3) {
+                this.realButton.setScale(1.5);
+                this.fakeButton.setScale(1);
+            } else {
+                this.fakeButton.setScale(1);
+                this.realButton.setScale(1);
+            }
         });
 
-        // Drag event - loslaten
+        // ✅ Swipe verwerking bij loslaten
         this.input.on('dragend', (pointer, gameObject) => {
             if (gameObject.x > this.scale.width * 0.7) {
-                // Rechts geswipet → "real"
                 this.handleSwipe(gameObject, 'real');
             } else if (gameObject.x < this.scale.width * 0.3) {
-                // Links geswipet → "DF"
                 this.handleSwipe(gameObject, 'DF');
             } else {
-                // Terug naar het midden als niet genoeg geswipet
                 this.resetCard(gameObject);
             }
+
+            // Terug naar originele grootte
+            this.fakeButton.setScale(1);
+            this.realButton.setScale(1);
         });
     }
 
     handleSwipe(card, guess) {
-        // Resultaten bijhouden (goed of fout)
-        let isCorrect = (guess === card.cardType); // Is de gok juist?
-        this.results.push({ image: card.texture.key, guess: guess, correct: isCorrect, type: card.cardType }); // Opslaan of de gok juist was
+        let isCorrect = (guess === card.cardType);
+        this.results.push({ 
+            image: card.texture.key, 
+            guess, 
+            correct: isCorrect, 
+            type: card.cardType 
+        });
 
-        // Verhoog de score als de gok correct was
-        if (isCorrect) {
-            this.score++;
-        }
-
-        // Toon visuele feedback met de afbeelding en of het goed of fout was
-        this.showFeedback(card, guess, isCorrect);
-        // // Controleren of de gok correct is (resultaat)
-        // if ((guess === 'real' && card.cardType === 'real') || (guess === 'deepfake' && card.cardType === 'deepfake')) {
-        //     this.score++;
-        // }
-
+        if (isCorrect) this.score++;
         this.cardsSwiped++;
 
-        // Snelle animatie om kaart weg te swipen
+        // ✅ Snelle animatie om kaart weg te swipen
         this.tweens.add({
             targets: card,
             x: guess === 'real' ? this.scale.width + 200 : -200,
             alpha: 0,
-            duration: 200, // Animatie korter gemaakt
+            duration: 200,
             onComplete: () => {
-                card.destroy(); // Kaart verwijderen
-                if (this.cardsSwiped === this.totalCards) {
-                    this.showResult(); // Resultaat tonen als alle kaarten weg zijn
-                }
+                card.destroy();
+                if (this.cardsSwiped === this.totalCards) this.showResult();
             }
         });
     }
 
     resetCard(card) {
-        // Kaart animeren terug naar het midden
         this.tweens.add({
             targets: card,
             x: this.scale.width / 2,
@@ -115,34 +123,7 @@ class MainScene extends Phaser.Scene {
         });
     }
 
-    showFeedback(card, guess, isCorrect) {
-        // Voeg feedback toe onder de afbeelding
-        const feedbackText = `${isCorrect ? '\u2705' : '\u274C'}`;
-        
-        let feedbackImage = this.add.image(card.x, card.y + 150, card.texture.key)
-            .setDisplaySize(100, 100)  // Kleine afbeelding van de kaart
-            .setAlpha(0.7); // Doorzichtige afbeelding voor visuele feedback
-
-        let feedbackLabel = this.add.text(card.x, card.y + 200, feedbackText, {
-            font: '50px Arial',
-            fill: isCorrect ? '#00ff00' : '#ff0000'
-        }).setOrigin(0.5);
-
-        // Animatie van feedback verschuiven naar beneden
-        this.tweens.add({
-            targets: [feedbackImage, feedbackLabel],
-            y: card.y + 250,
-            duration: 500,
-            ease: 'Cubic.easeOut',
-            onComplete: () => {
-                feedbackImage.destroy();
-                feedbackLabel.destroy();
-            }
-        });
-    }
-
     showResult() {
-        // Resultaat berekenen en tonen
         const accuracy = ((this.score / this.totalCards) * 100).toFixed(1);
 
         let resultHTML = `
@@ -153,7 +134,6 @@ class MainScene extends Phaser.Scene {
             <ul>
         `;
 
-        // Toon details van elke kaart (goed/fout en afbeelding)
         this.results.forEach(result => {
             resultHTML += `
                 <li>
@@ -169,13 +149,10 @@ class MainScene extends Phaser.Scene {
 
         document.getElementById('result').innerHTML = resultHTML;
 
-        // Knop event listener voor refresh
         document.getElementById('refresh-btn').addEventListener('click', () => {
             location.reload();
-            //this.scene.restart(); // Scene herstarten
         });
 
-        // Overgebleven kaarten verwijderen
         this.cards.children.iterate((card) => {
             card.destroy();
         });
