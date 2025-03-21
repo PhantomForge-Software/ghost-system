@@ -4,6 +4,7 @@ class MainScene extends Phaser.Scene {
         this.score = 0;
         this.totalCards = 8;
         this.cardsSwiped = 0;
+        this.results = []; // Toegevoegd om de resultaten van elke kaart bij te houden
     }
 
     create() {
@@ -66,10 +67,17 @@ class MainScene extends Phaser.Scene {
     }
 
     handleSwipe(card, guess) {
-        // Controleren of de gok correct is
-        if ((guess === 'real' && card.cardType === 'real') || (guess === 'deepfake' && card.cardType === 'deepfake')) {
+        // Resultaten bijhouden (goed of fout)
+        let isCorrect = (guess === card.cardType); // Is de gok juist?
+        this.results.push({ image: card.texture.key, guess: guess, correct: isCorrect }); // Opslaan of de gok juist was
+
+        // Verhoog de score als de gok correct was
+        if (isCorrect) {
             this.score++;
         }
+
+        // Toon visuele feedback met de afbeelding en of het goed of fout was
+        this.showFeedback(card, guess, isCorrect);
 
         this.cardsSwiped++;
 
@@ -99,15 +107,59 @@ class MainScene extends Phaser.Scene {
         });
     }
 
+    showFeedback(card, guess, isCorrect) {
+        // Voeg feedback toe onder de afbeelding
+        const feedbackText = `${guess.toUpperCase()} - ${isCorrect ? 'Correct' : 'Fout'}`;
+        
+        let feedbackImage = this.add.image(card.x, card.y + 150, card.texture.key)
+            .setDisplaySize(100, 100)  // Kleine afbeelding van de kaart
+            .setAlpha(0.7); // Doorzichtige afbeelding voor visuele feedback
+
+        let feedbackLabel = this.add.text(card.x, card.y + 200, feedbackText, {
+            font: '20px Arial',
+            fill: isCorrect ? '#00ff00' : '#ff0000'
+        }).setOrigin(0.5);
+
+        // Animatie van feedback verschuiven naar beneden
+        this.tweens.add({
+            targets: [feedbackImage, feedbackLabel],
+            y: card.y + 250,
+            duration: 500,
+            ease: 'Cubic.easeOut',
+            onComplete: () => {
+                feedbackImage.destroy();
+                feedbackLabel.destroy();
+            }
+        });
+    }
+
     showResult() {
         // Resultaat berekenen en tonen
         const accuracy = ((this.score / this.totalCards) * 100).toFixed(1);
-        document.getElementById('result').innerHTML = `
+
+        let resultHTML = `
             <h3>Resultaat:</h3>
             <p>Score: ${this.score}/${this.totalCards} (${accuracy}%)</p>
             <p>Kans om gescamd te worden: ${100 - accuracy}%</p>
+            <h4>Details van je antwoorden:</h4>
+            <ul>
+        `;
+
+        // Toon details van elke kaart (goed/fout en afbeelding)
+        this.results.forEach(result => {
+            resultHTML += `
+                <li>
+                    <img src="${result.image}.jpg" alt="${result.image}" width="100">
+                    <span>${result.guess} - ${result.correct ? 'Correct' : 'Fout'}</span>
+                </li>
+            `;
+        });
+
+        resultHTML += `</ul>
             <button id="refresh-btn" class="btn btn-primary mt-3">Opnieuw proberen</button>
         `;
+
+        document.getElementById('result').innerHTML = resultHTML;
 
         // Knop event listener voor refresh
         document.getElementById('refresh-btn').addEventListener('click', () => {
