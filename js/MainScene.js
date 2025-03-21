@@ -73,7 +73,7 @@ class MainScene extends Phaser.Scene {
     handleSwipe(card, guess) {
         // Resultaten bijhouden (goed of fout)
         let isCorrect = (guess === card.cardType); // Is de gok juist?
-        this.results.push({ image: card.texture.key, guess: guess, correct: isCorrect }); // Opslaan of de gok juist was
+        this.results.push({ image: card.texture.key, guess: guess, correct: isCorrect, type: card.cardType }); // Opslaan of de gok juist was
 
         // Verhoog de score als de gok correct was
         if (isCorrect) {
@@ -153,7 +153,7 @@ class MainScene extends Phaser.Scene {
         this.results.forEach(result => {
             resultHTML += `
                 <li>
-                    <img src="${result.image}.jpg" alt="${result.image}" width="100">
+                    <img src="${result.type}.jpg" alt="${result.image}" width="100">
                     <span>${result.guess} - ${result.correct ? 'Correct' : 'Fout'}</span>
                 </li>
             `;
