@@ -39,7 +39,7 @@ class MainScene extends Phaser.Scene {
                 .setInteractive();
 
             // Kaarttype bepalen op basis van de naam
-            card.cardType = cardImage.includes('DF') ? 'DF' : 'real';
+            card.cardType = cardImage.includes('DF') ? 'DeepFake' : 'real';
 
             // Kaart draggable maken
             this.input.setDraggable(card);
@@ -62,7 +62,7 @@ class MainScene extends Phaser.Scene {
                 this.handleSwipe(gameObject, 'real');
             } else if (gameObject.x < this.scale.width * 0.3) {
                 // Links geswipet → "DF"
-                this.handleSwipe(gameObject, 'DF');
+                this.handleSwipe(gameObject, 'DeepFake');
             } else {
                 // Terug naar het midden als niet genoeg geswipet
                 this.resetCard(gameObject);
@@ -82,7 +82,7 @@ class MainScene extends Phaser.Scene {
 
         // Toon visuele feedback met de afbeelding en of het goed of fout was
         this.showFeedback(card, guess, isCorrect);
-        // // Controleren of de gok correct is (resultaat)
+        // Controleren of de gok correct is (resultaat)
         // if ((guess === 'real' && card.cardType === 'real') || (guess === 'deepfake' && card.cardType === 'deepfake')) {
         //     this.score++;
         // }
