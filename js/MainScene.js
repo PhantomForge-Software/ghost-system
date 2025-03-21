@@ -39,7 +39,7 @@ class MainScene extends Phaser.Scene {
                 .setInteractive();
 
             // Kaarttype bepalen op basis van de naam
-            card.cardType = cardImage.includes('DF') ? 'DeepFake' : 'real';
+            card.cardType = cardImage.includes('DF') ? 'DeepFake' : 'echt';
 
             // Kaart draggable maken
             this.input.setDraggable(card);
@@ -59,7 +59,7 @@ class MainScene extends Phaser.Scene {
         this.input.on('dragend', (pointer, gameObject) => {
             if (gameObject.x > this.scale.width * 0.7) {
                 // Rechts geswipet → "real"
-                this.handleSwipe(gameObject, 'real');
+                this.handleSwipe(gameObject, 'echt');
             } else if (gameObject.x < this.scale.width * 0.3) {
                 // Links geswipet → "DF"
                 this.handleSwipe(gameObject, 'DeepFake');
