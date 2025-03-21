@@ -16,7 +16,7 @@ class MainScene extends Phaser.Scene {
 
         // Kaart afbeeldingen definiëren
         let cardImages = [
-            'deepfake_1', 'deepfake_2', 'deepfake_3', 'deepfake_4', 'deepfake_5', 'deepfake_6',
+            'deepfake_1', 'deepfake_2', 'deepfake_3', 'deepfake_4', 'deepfake_5', 'deepfake_6', 'deepfake_7', 'deepfake_8',
             'normal_1', 'normal_2', 'normal_3', 'normal_4', 'normal_5', 'normal_6', 'normal_7', 'normal_8'
         ];
 
