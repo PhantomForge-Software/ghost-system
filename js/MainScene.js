@@ -2,7 +2,7 @@ class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'MainScene' });
         this.score = 0;
-        this.totalCards = 8;
+        this.totalCards = 10;
         this.cardsSwiped = 0;
         this.results = []; // Toegevoegd om de resultaten van elke kaart bij te houden
     }
@@ -82,6 +82,10 @@ class MainScene extends Phaser.Scene {
 
         // Toon visuele feedback met de afbeelding en of het goed of fout was
         this.showFeedback(card, guess, isCorrect);
+        // // Controleren of de gok correct is (resultaat)
+        // if ((guess === 'real' && card.cardType === 'real') || (guess === 'deepfake' && card.cardType === 'deepfake')) {
+        //     this.score++;
+        // }
 
         this.cardsSwiped++;
 
@@ -113,14 +117,14 @@ class MainScene extends Phaser.Scene {
 
     showFeedback(card, guess, isCorrect) {
         // Voeg feedback toe onder de afbeelding
-        const feedbackText = `${guess.toUpperCase()} - ${isCorrect ? 'Correct' : 'Fout'}`;
+        const feedbackText = `${isCorrect ? '\u2705' : '\u274C'}`;
         
         let feedbackImage = this.add.image(card.x, card.y + 150, card.texture.key)
             .setDisplaySize(100, 100)  // Kleine afbeelding van de kaart
             .setAlpha(0.7); // Doorzichtige afbeelding voor visuele feedback
 
         let feedbackLabel = this.add.text(card.x, card.y + 200, feedbackText, {
-            font: '20px Arial',
+            font: '50px Arial',
             fill: isCorrect ? '#00ff00' : '#ff0000'
         }).setOrigin(0.5);
 
