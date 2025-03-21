@@ -16,8 +16,8 @@ class MainScene extends Phaser.Scene {
 
         // ✅ Kaart afbeeldingen definities
         let cardImages = [
-            'DF_1', 'DF_2', 'DF_3', 'DF_4', 'DF_5', 'DF_6', 'DF_7', 'DF_8',
-            'R_1', 'R_2', 'R_3', 'R_4', 'R_5', 'R_6', 'R_7', 'R_8'
+            'DF_1', 'DF_2', 'DF_3', 'DF_4', 'DF_5', 'DF_6', 'DF_7', 'DF_8', 'DF_9', 'DF_10', 'DF_11', 'DF_12', 'DF_13', 'DF_14', 'DF_15',
+            'R_1', 'R_2', 'R_3', 'R_4', 'R_5', 'R_6', 'R_7', 'R_8', 'R_9', 'R_10', 'R_11', 'R_12', 'R_13', 'R_14','R_15'
         ];
         let shuffledImages = Phaser.Utils.Array.Shuffle(cardImages).slice(0, this.totalCards);
 
@@ -26,7 +26,8 @@ class MainScene extends Phaser.Scene {
                 .setDisplaySize(cardWidth, cardHeight)
                 .setInteractive();
 
-            card.cardType = cardImage.includes('DF') ? 'DF' : 'real';
+            // Kaarttype bepalen op basis van de naam
+            card.cardType = cardImage.includes('DF') ? 'DeepFake' : 'echt';
 
             this.input.setDraggable(card);
             this.cards.add(card);
@@ -75,9 +76,11 @@ class MainScene extends Phaser.Scene {
         // ✅ Swipe verwerking bij loslaten
         this.input.on('dragend', (pointer, gameObject) => {
             if (gameObject.x > this.scale.width * 0.7) {
-                this.handleSwipe(gameObject, 'real');
+                // Rechts geswipet → "real"
+                this.handleSwipe(gameObject, 'echt');
             } else if (gameObject.x < this.scale.width * 0.3) {
-                this.handleSwipe(gameObject, 'DF');
+                // Links geswipet → "DF"
+                this.handleSwipe(gameObject, 'DeepFake');
             } else {
                 this.resetCard(gameObject);
             }
