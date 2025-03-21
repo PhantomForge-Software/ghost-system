@@ -153,7 +153,7 @@ class MainScene extends Phaser.Scene {
         this.results.forEach(result => {
             resultHTML += `
                 <li>
-                    <img src="${result.type}.jpg" alt="${result.image}" width="100">
+                    <img src="https://raw.githubusercontent.com/PhantomForge-Software/liefde-liegt/main/assets/img/${result.type}.png" alt="${result.image}" width="100">
                     <span>${result.guess} - ${result.correct ? 'Correct' : 'Fout'}</span>
                 </li>
             `;
