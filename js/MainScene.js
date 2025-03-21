@@ -23,9 +23,13 @@ class MainScene extends Phaser.Scene {
         // Willekeurige volgorde maken
         let shuffledImages = Phaser.Utils.Array.Shuffle(cardImages.slice()).slice(0, this.totalCards);
 
+        // Dynamische breedte en hoogte voor de zones
+        let zoneWidth = window.innerWidth > 768 ? 500 : 150;
+        let zoneHeight = window.innerHeight > 768 ? this.scale.height : 200;
+
         // Groene en rode zone (voor swipe richting)
-        this.greenZone = this.add.rectangle(this.scale.width * 0.9, this.scale.height / 2, 50, this.scale.height, 0x00ff00, 0.5).setOrigin(0.5);
-        this.redZone = this.add.rectangle(this.scale.width * 0.1, this.scale.height / 2, 50, this.scale.height, 0xff0000, 0.5).setOrigin(0.5);
+        this.greenZone = this.add.rectangle(this.scale.width * 0.9, this.scale.height / 2, zoneWidth, zoneHeight, 0x00ff00, 0.5).setOrigin(0.5);
+        this.redZone = this.add.rectangle(this.scale.width * 0.1, this.scale.height / 2, zoneWidth, zoneHeight, 0xff0000, 0.5).setOrigin(0.5);
 
         // Kaarten maken
         shuffledImages.forEach((cardImage) => {
