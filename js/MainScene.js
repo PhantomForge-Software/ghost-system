@@ -17,8 +17,8 @@ class MainScene extends Phaser.Scene {
 
         // Kaart afbeeldingen definiëren
         let cardImages = [
-            'deepfake_1', 'deepfake_2', 'deepfake_3', 'deepfake_4', 'deepfake_5', 'deepfake_6', 'deepfake_7', 'deepfake_8',
-            'normal_1', 'normal_2', 'normal_3', 'normal_4', 'normal_5', 'normal_6', 'normal_7', 'normal_8'
+            'DF_1', 'DF_2', 'DF_3', 'DF_4', 'DF_5', 'DF_6', 'DF_7', 'DF_8',
+            'R_1', 'R_2', 'R_3', 'R_4', 'R_5', 'R_6', 'R_7', 'R_8'
         ];
 
         // Willekeurige volgorde maken
@@ -39,7 +39,7 @@ class MainScene extends Phaser.Scene {
                 .setInteractive();
 
             // Kaarttype bepalen op basis van de naam
-            card.cardType = cardImage.includes('deepfake') ? 'deepfake' : 'real';
+            card.cardType = cardImage.includes('DF') ? 'DF' : 'real';
 
             // Kaart draggable maken
             this.input.setDraggable(card);
@@ -61,8 +61,8 @@ class MainScene extends Phaser.Scene {
                 // Rechts geswipet → "real"
                 this.handleSwipe(gameObject, 'real');
             } else if (gameObject.x < this.scale.width * 0.3) {
-                // Links geswipet → "deepfake"
-                this.handleSwipe(gameObject, 'deepfake');
+                // Links geswipet → "DF"
+                this.handleSwipe(gameObject, 'DF');
             } else {
                 // Terug naar het midden als niet genoeg geswipet
                 this.resetCard(gameObject);
@@ -73,7 +73,7 @@ class MainScene extends Phaser.Scene {
     handleSwipe(card, guess) {
         // Resultaten bijhouden (goed of fout)
         let isCorrect = (guess === card.cardType); // Is de gok juist?
-        this.results.push({ image: card.texture.key, guess: guess, correct: isCorrect }); // Opslaan of de gok juist was
+        this.results.push({ image: card.texture.key, guess: guess, correct: isCorrect, type: card.cardType }); // Opslaan of de gok juist was
 
         // Verhoog de score als de gok correct was
         if (isCorrect) {
@@ -157,7 +157,7 @@ class MainScene extends Phaser.Scene {
         this.results.forEach(result => {
             resultHTML += `
                 <li>
-                    <img src="${result.image}.jpg" alt="${result.image}" width="100">
+                    <img src="https://raw.githubusercontent.com/PhantomForge-Software/liefde-liegt/main/assets/img/${result.type}.png" alt="${result.image}" width="100">
                     <span>${result.guess} - ${result.correct ? 'Correct' : 'Fout'}</span>
                 </li>
             `;
