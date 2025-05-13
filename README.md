@@ -1,4 +1,4 @@
-# Ghost System
+# Liefde Liegt
 
 A Phaser game project.
 
